@@ -427,7 +427,7 @@ MonoBehaviour:
   m_LastFolders:
   - Assets/FPS/Art/Materials/Level
   m_LastFoldersGridSize: 90
-  m_LastProjectPath: C:\dev\getCrEAtive-WhatsUp\getcreative
+  m_LastProjectPath: D:\Projects\getCrEAtive-WhatsUp\getcreative
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
