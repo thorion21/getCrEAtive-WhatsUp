@@ -20,6 +20,7 @@ public class Tracker : MonoBehaviour
     private DemolishStrategy demolishStrategy;
 
     private State currentState;
+    private PirateController player;
 
 
     private void Awake()
@@ -30,6 +31,9 @@ public class Tracker : MonoBehaviour
         frenzyStrategy = frenzyObj.GetComponent<FrenzyStrategy>();
         reanimateStrategy = reanimateObj.GetComponent<ReanimateStrategy>();
         demolishStrategy = demolishObj.GetComponent<DemolishStrategy>();
+
+
+        player = GameObject.Find("Player2").GetComponent<PirateController>();
 
         currentState = State.Calmness;
         context.setStrategy(calmnessStrategy);
@@ -45,6 +49,8 @@ public class Tracker : MonoBehaviour
     {
         if (currentState == state)
             return;
+
+        player.InflictDamage(20);
 
         switch (state)
         {

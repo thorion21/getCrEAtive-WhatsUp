@@ -7,6 +7,7 @@ public class Checkpoint : MonoBehaviour
     public GameObject trackerObj;
     private Tracker tracker;
     public State stateValue;
+    
 
     void Start()
     {
