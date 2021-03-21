@@ -40,9 +40,9 @@ public class Tracker : MonoBehaviour
         context.executeStrategy();
     }
 
-    private void Start()
+    public State getCurrentState()
     {
-        Debug.Log("File");
+        return currentState;
     }
 
     public void announceEvent(State state)

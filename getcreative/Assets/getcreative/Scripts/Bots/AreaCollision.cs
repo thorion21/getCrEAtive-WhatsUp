@@ -7,6 +7,9 @@ public class AreaCollision : MonoBehaviour
     private BotController2D controller;
     private GameObject entity;
 
+    public Animator animator;
+    private bool canHit = true;
+
     public void Awake()
     {
         controller = gameObject.GetComponentInParent<BotController2D>();
@@ -15,7 +18,8 @@ public class AreaCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attackEntity();
+        if (controller.currentState != EnemyState.Dead)
+            attackEntity();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,6 +28,10 @@ public class AreaCollision : MonoBehaviour
         {
             entity = other.gameObject;
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -38,7 +46,22 @@ public class AreaCollision : MonoBehaviour
     {
         if (entity == null)
             return;
-        
-        
+
+        if (canHit)
+            StartCoroutine("Hit");
+    }
+
+    public void Kill()
+    {
+        if (entity)
+            entity.gameObject.GetComponent<PirateController>().InflictDamage(20);
+    }
+
+    IEnumerator Hit()
+    {
+        canHit = false;
+        animator.SetTrigger("isAttacking");
+        yield return new WaitForSeconds(0.5f);
+        canHit = true;
     }
 }

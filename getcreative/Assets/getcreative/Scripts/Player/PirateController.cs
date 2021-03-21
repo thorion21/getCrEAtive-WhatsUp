@@ -16,11 +16,17 @@ public class PirateController : MonoBehaviour
     public GameObject weaponPoint;
     public GameObject bulletPrefab;
 
-    bool canFire = true;
+    bool canFire = false;
     Direction previousDirection;
 
     [SerializeField]
     private int health;
+
+    public Animator animator;
+
+    public GameObject violin;
+
+    public Tracker tracker;
 
     enum Direction
     {
@@ -34,17 +40,18 @@ public class PirateController : MonoBehaviour
         jumpForce = 4.5f;
         health = 100;
         previousDirection = Direction.Right;
+        tracker = GameObject.Find("PlayerTracker").GetComponent<Tracker>();
+
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            //Debug.Log("Jumpboss");
             rb.AddForce(new Vector2(rb.velocity.x, jumpForce), ForceMode2D.Impulse);
         }
 
-        if (Input.GetMouseButtonDown(0) && canFire)
+        if (Input.GetMouseButton(0) && canFire)
         {
             StartCoroutine("Fire");
         }
@@ -65,6 +72,18 @@ public class PirateController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (tracker.getCurrentState() != State.Demolish)
+        {
+            ManualMovement();
+        }
+        else
+        {
+            AutoMovement();
+        }
+    }
+
+    void ManualMovement()
+    {
         float horizontal = Input.GetAxisRaw("Horizontal");
         Vector2 movement = new Vector3(horizontal, 0.0f);
 
@@ -72,6 +91,9 @@ public class PirateController : MonoBehaviour
 
         bool goingRight = horizontal > 0;
         bool goingLeft = horizontal < 0;
+
+        animator.SetFloat("jumping", rb.velocity.y);
+        animator.SetBool("isMoving", goingLeft || goingRight);
 
         if (goingRight && previousDirection != Direction.Right)
         {
@@ -84,6 +106,14 @@ public class PirateController : MonoBehaviour
             Flip();
             previousDirection = Direction.Left;
         }
+    }
+
+    void AutoMovement()
+    {
+        Vector2 movement = new Vector3(1.0f, 0.0f);
+
+        rb.velocity = movement.normalized * speed + new Vector2(0.0f, rb.velocity.y);
+        animator.SetBool("isMoving", true);
     }
 
     public void InflictDamage(int amount)
@@ -99,6 +129,17 @@ public class PirateController : MonoBehaviour
     public void Heal(int amount)
     {
         health = Mathf.Clamp(health + amount, 0, 100);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Item"))
+        {
+            canFire = true;
+            Debug.Log("Picked up item");
+            violin.SetActive(true);
+            Destroy(collision.gameObject);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

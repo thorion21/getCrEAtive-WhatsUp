@@ -31,7 +31,23 @@ public class PatrolZone : MonoBehaviour
         {
             float p = Mathf.InverseLerp(0, duration, Mathf.PingPong(Time.time - startTime, duration));
             Vector3 movement = transform.TransformPoint(Vector2.Lerp(startPosition, endPosition, p));
-            rb.velocity = new Vector3(Mathf.Clamp(movement.x - transform.position.x, -1, 1), 0.0f) * controller.speed;
+            float clamp_value = Mathf.Clamp(movement.x - transform.position.x, -1, 1);
+            rb.velocity = new Vector3(clamp_value, 0.0f) * controller.speed;
+
+            bool goingRight = clamp_value > 0;
+            bool goingLeft = clamp_value < 0;
+
+            if (goingRight && controller.previousDirection != Direction.Right)
+            {
+                controller.Flip();
+                controller.previousDirection = Direction.Right;
+            }
+
+            if (goingLeft && controller.previousDirection != Direction.Left)
+            {
+                controller.Flip();
+                controller.previousDirection = Direction.Left;
+            }
         }
     }
 

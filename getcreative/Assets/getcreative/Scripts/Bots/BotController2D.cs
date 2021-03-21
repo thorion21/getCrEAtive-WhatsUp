@@ -6,7 +6,8 @@ public enum EnemyState
 {
     Idle,
     Hunt,
-    Patrol
+    Patrol,
+    Dead
 }
 
 public enum Direction
@@ -19,7 +20,6 @@ public class BotController2D : MonoBehaviour
     [Range(1.0f, 50.0f)]
     public float speed;
 
-    bool canFire = true;
     public EnemyState currentState;
     public Direction previousDirection;
 
@@ -36,6 +36,8 @@ public class BotController2D : MonoBehaviour
     private EnemyIdle enemyIdleStrategy;
     private PatrolZone patrolZoneStrategy;
 
+    private Animator animator;
+
     void Awake()
     {
         context = new StageContext();
@@ -49,6 +51,8 @@ public class BotController2D : MonoBehaviour
         huntPlayerStrategy.setPlayerAndRigidBody(playerEntity, rb);
         enemyIdleStrategy.setPlayerAndRigidBody(playerEntity, rb);
         patrolZoneStrategy.setPlayerAndRigidBody(playerEntity, rb);
+
+        animator = GetComponent<Animator>();
 
         currentState = EnemyState.Patrol;
         context.setStrategy(enemyIdleStrategy);
@@ -91,5 +95,34 @@ public class BotController2D : MonoBehaviour
     public void Flip()
     {
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void InflictDamage(int amount)
+    {
+        health = Mathf.Clamp(health - amount, 0, 100);
+        if (health == 0)
+        {
+            currentState = EnemyState.Dead;
+            GetComponentInChildren<CapsuleCollider2D>().enabled = false;
+            animator.SetBool("isDead", true);
+            StartCoroutine("Die");
+        }
+    }
+
+    IEnumerator Die()
+    {
+        yield return new WaitForSeconds(2.5f);
+        Destroy(gameObject);
+    }
+
+    public void Heal(int amount)
+    {
+        health = Mathf.Clamp(health + amount, 0, 100);
+    }
+
+    public void damagePlayer()
+    {
+        Debug.Log("Player will be damaged");
+        GetComponentInChildren<AreaCollision>().Kill();
     }
 }
