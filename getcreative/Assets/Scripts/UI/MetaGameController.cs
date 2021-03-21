@@ -1,4 +1,3 @@
-using Platformer.Mechanics;
 using Platformer.UI;
 using UnityEngine;
 
@@ -19,11 +18,6 @@ namespace Platformer.UI
         /// A list of canvas objects which are used during gameplay (when the main ui is turned off)
         /// </summary>
         public Canvas[] gamePlayCanvasii;
-
-        /// <summary>
-        /// The game controller.
-        /// </summary>
-        public GameController gameController;
 
         bool showMainCanvas = true;
 
