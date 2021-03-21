@@ -66,6 +66,11 @@ namespace Platformer.UI
             ToggleMainMenu(show: !showMainCanvas);
         }
 
+        public void Quit()
+        {
+            Application.Quit();
+        }
+
         void Update()
         {
             if (Input.GetButtonDown("Menu"))
