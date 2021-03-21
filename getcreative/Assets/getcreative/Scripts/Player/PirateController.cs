@@ -28,6 +28,9 @@ public class PirateController : MonoBehaviour
     private bool isDead = false;
     public bool isReincarnated = false;
 
+    public AudioSource audioSource;
+    public AudioClip gunShot;
+
     enum Direction
     {
         Left, Right
@@ -66,6 +69,7 @@ public class PirateController : MonoBehaviour
     {
         canFire = false;
         GameObject firedBullet = Instantiate(bulletPrefab, weaponPoint.transform.position, weaponPoint.transform.rotation) as GameObject;
+        audioSource.PlayOneShot(gunShot, 0.25f);
         yield return new WaitForSeconds(0.5f);
         canFire = true;
     }

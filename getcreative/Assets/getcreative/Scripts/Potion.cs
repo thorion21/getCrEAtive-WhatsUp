@@ -7,11 +7,14 @@ public class Potion : MonoBehaviour
     private PirateController player;
     public RuntimeAnimatorController playerAC;
     public RuntimeAnimatorController botAC;
+    private AudioSource audioSource;
+    public AudioClip sound;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player2").GetComponent<PirateController>();
+        audioSource = GameObject.Find("Player2").GetComponent<AudioSource>();
         StartCoroutine("SelfDestroy");
     }
 
@@ -33,6 +36,8 @@ public class Potion : MonoBehaviour
         {
             player.GetComponent<Animator>().runtimeAnimatorController = botAC;
             Debug.Log("By my will, you will be ressurected");
+
+            audioSource.PlayOneShot(sound, 0.5f);
 
             Destroy(gameObject);
         }
