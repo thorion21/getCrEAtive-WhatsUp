@@ -37,7 +37,7 @@ public class PirateController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         speed = 5.5f;
-        jumpForce = 4.5f;
+        jumpForce = 5.0f;
         health = 100;
         previousDirection = Direction.Right;
         tracker = GameObject.Find("PlayerTracker").GetComponent<Tracker>();
