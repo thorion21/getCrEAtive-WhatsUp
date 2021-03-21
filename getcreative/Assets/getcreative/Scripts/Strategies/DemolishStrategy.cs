@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class DemolishStrategy : MonoBehaviour, IStrategy
 {
-    public void execute()
+    private Tracker tracker;
+
+    public void Awake()
     {
-        Debug.Log("DemolishStrategy exec");
+        tracker = gameObject.GetComponentInParent<Tracker>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (tracker.getCurrentState() == State.Demolish)
+        {
+
+        }
+    }
+
+    public void execute()
+    {
+        Debug.Log("Demolish Strategy exec");
     }
 }

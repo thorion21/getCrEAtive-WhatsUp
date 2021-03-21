@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class ReanimateStrategy : MonoBehaviour, IStrategy
 {
-    public void execute()
+    private Tracker tracker;
+
+    public void Awake()
     {
-        // Activate this object
-        Debug.Log("ReanimateStrategy exec");
+        tracker = gameObject.GetComponentInParent<Tracker>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        // Instantiate monster, change behaviour
+        if (tracker.getCurrentState() == State.Reanimate)
+        {
+
+        }
+    }
+
+    public void execute()
+    {
+        Debug.Log("ReanimateStrategy exec");
     }
 }

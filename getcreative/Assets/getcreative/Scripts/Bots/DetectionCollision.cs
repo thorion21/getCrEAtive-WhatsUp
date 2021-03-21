@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AreaCollision : MonoBehaviour
+public class DetectionCollision : MonoBehaviour
 {
     private BotController2D controller;
-    private GameObject entity;
 
     public void Awake()
     {
         controller = gameObject.GetComponentInParent<BotController2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        attackEntity();
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            entity = other.gameObject;
+            controller.updateStateEnter(other);
         }
     }
 
@@ -30,15 +23,7 @@ public class AreaCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            entity = null;
+            controller.updateStateExit(other);
         }
-    }
-
-    public void attackEntity()
-    {
-        if (entity == null)
-            return;
-        
-        
     }
 }

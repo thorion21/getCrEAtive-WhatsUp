@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class FrenzyStrategy : MonoBehaviour, IStrategy
 {
-    public void execute()
+    private Tracker tracker;
+
+    public void Awake()
     {
-        Debug.Log("FrenzyStrategy exec");
+        tracker = gameObject.GetComponentInParent<Tracker>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (tracker.getCurrentState() == State.Frenzy)
+        {
+
+        }
+    }
+
+    public void execute()
+    {
+        Debug.Log("Frenzy Strategy exec");
     }
 }

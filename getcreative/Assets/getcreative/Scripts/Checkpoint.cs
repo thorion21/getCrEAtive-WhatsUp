@@ -19,7 +19,6 @@ public class Checkpoint : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             tracker.announceEvent(stateValue);
-            
         }
     }
 }

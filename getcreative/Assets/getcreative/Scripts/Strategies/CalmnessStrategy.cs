@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class CalmnessStrategy : MonoBehaviour, IStrategy
 {
-    public void execute()
+    private Tracker tracker;
+
+    public void Awake()
     {
-        Debug.Log("Calmness Strategy exec function");
+        tracker = gameObject.GetComponentInParent<Tracker>();
     }
 
+    // Update is called once per frame
     void Update()
     {
+        if (tracker.getCurrentState() == State.Calmness)
+        {
 
+        }
+    }
+
+    public void execute()
+    {
+        Debug.Log("Calmness Strategy exec");
     }
 }
