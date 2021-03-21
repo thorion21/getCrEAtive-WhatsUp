@@ -21,12 +21,12 @@ public class PirateController : MonoBehaviour
 
     [SerializeField]
     private int health;
-
     public Animator animator;
-
     public GameObject violin;
-
     public Tracker tracker;
+
+    private bool isDead = false;
+    public bool isReincarnated = false;
 
     enum Direction
     {
@@ -46,12 +46,12 @@ public class PirateController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isDead)
         {
             rb.AddForce(new Vector2(rb.velocity.x, jumpForce), ForceMode2D.Impulse);
         }
 
-        if (Input.GetMouseButton(0) && canFire)
+        if (Input.GetMouseButton(0) && canFire && !isDead)
         {
             StartCoroutine("Fire");
         }
@@ -72,6 +72,9 @@ public class PirateController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDead)
+            return;
+
         if (tracker.getCurrentState() != State.Demolish)
         {
             ManualMovement();
@@ -121,9 +124,31 @@ public class PirateController : MonoBehaviour
         health = Mathf.Clamp(health - amount, 0, 100);
         if (health == 0)
         {
+            Debug.Log("Hello from inflict:)");
+            if (isReincarnated)
+            {
+                // Game over
+                //Destroy(gameObject);
+            }
             // Start Reanimate if in reanimate zone
+            animator.SetBool("isDead", true);
+            Debug.Log("S-a terminat inflict");
+            isDead = true;
+            StartCoroutine("Reincarnate");
         }
-        // if no reanimation found => game over
+    }
+
+    IEnumerator Reincarnate()
+    {
+        Debug.Log("You have 1 more chance!");
+        yield return new WaitForSeconds(0.1f);
+
+        animator.SetBool("isReincarnated", true);
+        animator.SetBool("isDead", false);
+        isReincarnated = true;
+        health = 100;
+        isDead = false;
+        Debug.Log("Finish of reincarnate");
     }
 
     public void Heal(int amount)

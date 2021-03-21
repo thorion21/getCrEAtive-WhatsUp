@@ -111,7 +111,7 @@ public class BotController2D : MonoBehaviour
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(22.5f);
         Destroy(gameObject);
     }
 

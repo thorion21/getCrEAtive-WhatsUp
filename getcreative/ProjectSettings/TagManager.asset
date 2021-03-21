@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Wall
   - Item
+  - Hole
   layers:
   - Default
   - TransparentFX
