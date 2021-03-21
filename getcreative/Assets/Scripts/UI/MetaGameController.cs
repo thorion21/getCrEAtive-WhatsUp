@@ -25,7 +25,7 @@ namespace Platformer.UI
         /// </summary>
         public GameController gameController;
 
-        bool showMainCanvas = false;
+        bool showMainCanvas = true;
 
         void OnEnable()
         {
@@ -59,6 +59,11 @@ namespace Platformer.UI
                 foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(true);
             }
             this.showMainCanvas = show;
+        }
+
+        public void Play()
+        {
+            ToggleMainMenu(show: !showMainCanvas);
         }
 
         void Update()

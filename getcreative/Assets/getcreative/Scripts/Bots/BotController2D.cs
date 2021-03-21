@@ -37,6 +37,7 @@ public class BotController2D : MonoBehaviour
     private PatrolZone patrolZoneStrategy;
 
     private Animator animator;
+    public GameObject potion;
 
     void Awake()
     {
@@ -68,6 +69,9 @@ public class BotController2D : MonoBehaviour
 
     public void updateStateEnter(Collider2D other)
     {
+        if (health == 0)
+            return;
+
         switch (other.gameObject.tag)
         {
             case "Player":
@@ -81,6 +85,9 @@ public class BotController2D : MonoBehaviour
 
     public void updateStateExit(Collider2D other)
     {
+        if (health == 0)
+            return;
+
         switch (other.gameObject.tag)
         {
             case "Player":
@@ -111,7 +118,8 @@ public class BotController2D : MonoBehaviour
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(22.5f);
+        yield return new WaitForSeconds(2.5f);
+        Instantiate(potion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
@@ -122,7 +130,6 @@ public class BotController2D : MonoBehaviour
 
     public void damagePlayer()
     {
-        Debug.Log("Player will be damaged");
         GetComponentInChildren<AreaCollision>().Kill();
     }
 }

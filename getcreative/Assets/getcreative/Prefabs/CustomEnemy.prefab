@@ -315,6 +315,7 @@ MonoBehaviour:
   huntObj: {fileID: 1088130511011693655}
   idleObj: {fileID: 1088130510158688427}
   patrolObj: {fileID: 1088130511899080586}
+  potion: {fileID: 7311389746324561283, guid: 9014531a6c7caf148adffa71b8d645c0, type: 3}
 --- !u!1 &1088130511011693655
 GameObject:
   m_ObjectHideFlags: 0
